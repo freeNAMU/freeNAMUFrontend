@@ -1,0 +1,5 @@
+/.idea/
+/backend/.mvn/
+/backend/backend.iml
+/frontend/node_modules/
+/frontend/frontend.iml
