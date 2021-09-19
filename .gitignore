@@ -1,5 +1,6 @@
 /.idea/
 /backend/.mvn/
 /backend/backend.iml
+/backend/src/main/resources/application.properties
 /frontend/node_modules/
 /frontend/frontend.iml
