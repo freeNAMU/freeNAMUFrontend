@@ -28,6 +28,6 @@ COPY backend/src /usr/src/freeNAMU/backend/src
 COPY backend/init.sh /usr/src/freeNAMU/backend/init.sh
 WORKDIR /usr/src/freeNAMU/frontend
 RUN npm run build
-RUN cp -r dist/* /usr/src/freeNAMU/backend/src/main/resources/static
+RUN mkdir -p /usr/src/freeNAMU/backend/src/main/resources/static && cp -r dist/* /usr/src/freeNAMU/backend/src/main/resources/static
 WORKDIR /usr/src/freeNAMU/backend
 CMD chmod +x init.sh && ./init.sh && chmod +x mvnw && ./mvnw spring-boot:run
