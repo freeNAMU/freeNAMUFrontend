@@ -3,7 +3,6 @@ package com.github.freenamu.backend.service;
 import com.github.freenamu.backend.entity.Content;
 import com.github.freenamu.backend.entity.Document;
 import com.github.freenamu.backend.repository.DocumentRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
