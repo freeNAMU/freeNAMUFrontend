@@ -73,6 +73,32 @@ public class DocumentServiceTest {
     }
 
     @Test
+    public void postDocumentWithLongBody() {
+        // Given
+        String documentName = "test name";
+        StringBuilder documentBodyBuilder = new StringBuilder("l");
+        documentBodyBuilder.append("o".repeat(1000000));
+        documentBodyBuilder.append("ng");
+        String documentBody = documentBodyBuilder.toString();
+        String contributor = "127.0.0.1";
+        int expectedSize = 1;
+
+        // When
+        documentService.postDocument(documentName, documentBody, contributor);
+
+        // Then
+        Optional<Document> optionalDocument = documentRepository.findById(documentName);
+        assertTrue(optionalDocument.isPresent());
+        Document document = optionalDocument.get();
+        assertEquals(documentName, document.getDocumentName());
+        List<Content> revisions = document.getRevisions();
+        assertEquals(expectedSize, revisions.size());
+        Content content = revisions.get(0);
+        assertEquals(documentBodyBuilder.toString(), content.getContentBody());
+        assertEquals(contributor, content.getContributor());
+    }
+
+    @Test
     public void getLatestRawDocument() {
         // Given
         String documentName = "test name";
