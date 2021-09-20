@@ -30,4 +30,4 @@ WORKDIR /usr/src/freeNAMU/frontend
 RUN npm run build
 RUN cp -r dist/* /usr/src/freeNAMU/backend/src/main/resources/static
 WORKDIR /usr/src/freeNAMU/backend
-CMD chmod +x init.sh && ./init.sh && chmod +x mvnw && ./mvnw package && java -jar target/*.jar
+CMD chmod +x init.sh && ./init.sh && chmod +x mvnw && ./mvnw spring-boot:run
