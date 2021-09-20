@@ -98,7 +98,7 @@ public class DocumentServiceTest {
     }
 
     @Test
-    public void getLatestRawDocument() {
+    public void getLatestDocument() {
         // Given
         String documentName = "test name";
         String contributor = "127.0.0.1";
@@ -109,7 +109,7 @@ public class DocumentServiceTest {
         }
 
         // When
-        Content actual = documentService.getLatestRawDocument(documentName);
+        Content actual = documentService.getLatestDocument(documentName);
 
         // Then
         String expected = String.valueOf(size);
@@ -117,12 +117,63 @@ public class DocumentServiceTest {
     }
 
     @Test
-    public void returnNullIfDocumentIsNotExistWhenGetLatestRawDocument() {
+    public void returnNullIfDocumentIsNotExistWhenGetLatestDocument() {
         // Given
         String documentName = "test name";
 
         // When
-        Content actual = documentService.getLatestRawDocument(documentName);
+        Content actual = documentService.getLatestDocument(documentName);
+
+        // Then
+        assertNull(actual);
+    }
+
+    @Test
+    public void getDocumentByRevisionIndex() {
+        // Given
+        String documentName = "test name";
+        String contributor = "127.0.0.1";
+        int size = 100;
+        for (int i = 1; i <= size; i++) {
+            String documentBody = String.valueOf(i);
+            documentService.postDocument(documentName, documentBody, contributor);
+        }
+        int revisionIndex = 1;
+
+        // When
+        Content actual = documentService.getDocumentByRevisionIndex(documentName, revisionIndex);
+
+        // Then
+        assertEquals(String.valueOf(1), actual.getContentBody());
+    }
+
+    @Test
+    public void returnNullIfOutOfRangeWhenGetDocumentByRevisionIndex() {
+        // Given
+        String documentName = "test name";
+        String contributor = "127.0.0.1";
+        int size = 100;
+        for (int i = 1; i <= size; i++) {
+            String documentBody = String.valueOf(i);
+            documentService.postDocument(documentName, documentBody, contributor);
+        }
+        int revisionIndex = 101;
+
+        // When
+        Content actual = documentService.getDocumentByRevisionIndex(documentName, revisionIndex);
+
+        // Then
+        assertNull(actual);
+    }
+
+    @Test
+    public void returnNullIfDocumentIsNotExistWhenGetDocumentByRevisionIndex() {
+        // Given
+        String documentName = "test name";
+        int revisionIndex = 1;
+
+        // When
+        Content actual = documentService.getDocumentByRevisionIndex(documentName, revisionIndex);
 
         // Then
         assertNull(actual);
@@ -148,7 +199,7 @@ public class DocumentServiceTest {
         // Then
         for (int i = 0; i < size; i++) {
             if (i < size - 1) {
-                assertTrue(actual.get(i).getContentId() > actual.get(i + 1).getContentId());
+                assertTrue(actual.get(i).getContentId() < actual.get(i + 1).getContentId());
             }
             assertEquals(contributor, actual.get(i).getContributor());
             assertNull(actual.get(i).getContentBody());
