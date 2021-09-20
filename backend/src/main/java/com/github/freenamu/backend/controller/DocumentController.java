@@ -15,13 +15,23 @@ public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
-    @GetMapping("/document/{documentName}/latest/raw")
-    public ResponseEntity<Content> getLatestRawDocument(@PathVariable String documentName) {
-        Content latestRawDocument = documentService.getLatestRawDocument(documentName);
-        if (latestRawDocument == null) {
+    @GetMapping("/document/{documentName}/latest")
+    public ResponseEntity<Content> getLatestDocument(@PathVariable String documentName) {
+        Content latestDocument = documentService.getLatestDocument(documentName);
+        if (latestDocument == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(latestRawDocument, HttpStatus.OK);
+            return new ResponseEntity<>(latestDocument, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/document/{documentName}/{revisionIndex}")
+    public ResponseEntity<Content> getDocument(@PathVariable String documentName, @PathVariable int revisionIndex) {
+        Content document = documentService.getDocumentByRevisionIndex(documentName, revisionIndex);
+        if (document == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(document, HttpStatus.OK);
         }
     }
 

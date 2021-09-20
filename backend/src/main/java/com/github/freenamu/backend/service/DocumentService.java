@@ -36,15 +36,27 @@ public class DocumentService {
         documentRepository.save(document);
     }
 
-    public Content getLatestRawDocument(String documentName) {
+    public Content getLatestDocument(String documentName) {
         Optional<Document> optionalDocument = documentRepository.findById(documentName);
         if (optionalDocument.isPresent()) {
             Document document = optionalDocument.get();
             List<Content> revisions = document.getRevisions();
             return revisions.stream().max(Comparator.comparing(Content::getContentId)).get();
-        } else {
-            return null;
         }
+        return null;
+    }
+
+    public Content getDocumentByRevisionIndex(String documentName, int revisionIndex) {
+        Optional<Document> optionalDocument = documentRepository.findById(documentName);
+        if (optionalDocument.isPresent()) {
+            Document document = optionalDocument.get();
+            List<Content> revisions = document.getRevisions();
+            revisions.sort(Comparator.comparing(Content::getContentId));
+            if (1 <= revisionIndex && revisionIndex <= revisions.size()) {
+                return revisions.get(revisionIndex - 1);
+            }
+        }
+        return null;
     }
 
     public List<Content> getRevisionsOfDocument(String documentName) {
@@ -52,14 +64,13 @@ public class DocumentService {
         if (optionalDocument.isPresent()) {
             Document document = optionalDocument.get();
             List<Content> revisions = document.getRevisions();
-            revisions.sort(Comparator.comparing(Content::getContentId).reversed());
+            revisions.sort(Comparator.comparing(Content::getContentId));
             for (Content content : revisions) {
                 entityManager.detach(content);
                 content.setContentBody(null);
             }
             return revisions;
-        } else {
-            return null;
         }
+        return null;
     }
 }
