@@ -127,4 +127,43 @@ public class DocumentServiceTest {
         // Then
         assertNull(actual);
     }
+
+    @Test
+    public void getRevisionsOfDocument() {
+        // Given
+        String documentName = "test name";
+        String contributor = "127.0.0.1";
+        int size = 100;
+        for (int i = 1; i <= size; i++) {
+            String documentBody = String.valueOf(i);
+            documentService.postDocument(documentName, documentBody, contributor);
+        }
+        for (int i = 1; i <= size; i++) {
+            documentService.postDocument("not", "include", "this");
+        }
+
+        // When
+        List<Content> actual = documentService.getRevisionsOfDocument(documentName);
+
+        // Then
+        for (int i = 0; i < size; i++) {
+            if (i < size - 1) {
+                assertTrue(actual.get(i).getContentId() > actual.get(i + 1).getContentId());
+            }
+            assertEquals(contributor, actual.get(i).getContributor());
+            assertNull(actual.get(i).getContentBody());
+        }
+    }
+
+    @Test
+    public void returnNullIfDocumentIsNotExistWhenGetRevisionsOfDocument() {
+        // Given
+        String documentName = "test name";
+
+        // When
+        List<Content> actual = documentService.getRevisionsOfDocument(documentName);
+
+        // Then
+        assertNull(actual);
+    }
 }
