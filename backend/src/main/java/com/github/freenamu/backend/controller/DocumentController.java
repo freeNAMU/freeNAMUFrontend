@@ -8,19 +8,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class DocumentController {
     @Autowired
     private DocumentService documentService;
 
-    @GetMapping("/document/{documentName}/raw")
+    @GetMapping("/document/{documentName}/latest/raw")
     public ResponseEntity<Content> getLatestRawDocument(@PathVariable String documentName) {
         Content latestRawDocument = documentService.getLatestRawDocument(documentName);
         if (latestRawDocument == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(latestRawDocument, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/document/{documentName}/revisions")
+    public ResponseEntity<List<Content>> getRevisionsOfDocument(@PathVariable String documentName) {
+        List<Content> revisionsOfDocument = documentService.getRevisionsOfDocument(documentName);
+        if (revisionsOfDocument == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(revisionsOfDocument, HttpStatus.OK);
         }
     }
 

@@ -6,6 +6,8 @@ import com.github.freenamu.backend.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,9 @@ import java.util.Optional;
 public class DocumentService {
     @Autowired
     private DocumentRepository documentRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public void postDocument(String documentName, String documentBody, String contributor) {
         Optional<Document> optionalDocument = documentRepository.findById(documentName);
@@ -37,6 +42,22 @@ public class DocumentService {
             Document document = optionalDocument.get();
             List<Content> revisions = document.getRevisions();
             return revisions.stream().max(Comparator.comparing(Content::getContentId)).get();
+        } else {
+            return null;
+        }
+    }
+
+    public List<Content> getRevisionsOfDocument(String documentName) {
+        Optional<Document> optionalDocument = documentRepository.findById(documentName);
+        if (optionalDocument.isPresent()) {
+            Document document = optionalDocument.get();
+            List<Content> revisions = document.getRevisions();
+            revisions.sort(Comparator.comparing(Content::getContentId).reversed());
+            for (Content content : revisions) {
+                entityManager.detach(content);
+                content.setContentBody(null);
+            }
+            return revisions;
         } else {
             return null;
         }
