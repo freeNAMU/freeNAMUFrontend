@@ -1,9 +1,6 @@
 package com.github.freenamu.backend.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -20,6 +17,7 @@ public class Content {
     private LocalDateTime createDate = LocalDateTime.now();
 
     @Column
+    @Lob
     private String contentBody;
 
     public Long getContentId() {
