@@ -1,6 +1,5 @@
 #!/bin/sh
 echo "server.port=80" > src/main/resources/application.properties
-echo "spring.jpa.generate-ddl=true" >> src/main/resources/application.properties
 echo "spring.jpa.hibernate.ddl-auto=update" >> src/main/resources/application.properties
 if [ $DB -eq h2 ]; then
   echo "spring.jpa.database-platform=org.hibernate.dialect.H2Dialect" >> src/main/resources/application.properties
