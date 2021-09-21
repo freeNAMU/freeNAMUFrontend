@@ -1,3 +1,3 @@
-# freeNAMU
+# freeNAMUFrontend
 
-Alternative software for namu.wiki
+freeNAMUFrontend is a frontend of freeNAMU based on Vue.js
