@@ -1,6 +1,2 @@
 /.idea/
-/backend/backend.iml
-/backend/src/main/resources/application.properties
-/backend/target
-/frontend/node_modules/
-/frontend/frontend.iml
+/node_modules/
