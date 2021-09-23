@@ -2,6 +2,6 @@
 </template>
 <script>
 export default {
-  name: "DocumentEdit"
+  name: "DocumentHistory"
 }
 </script>

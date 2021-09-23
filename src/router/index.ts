@@ -1,9 +1,18 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
-import document from "@/router/document";
+import Document from "@/view/document/Document.vue";
+import DocumentView from "@/view/document/DocumentView.vue";
+import DocumentHistory from "@/view/document/DocumentHistory.vue";
+import DocumentEdit from "@/view/document/DocumentEdit.vue";
 
 const routes: Array<RouteRecordRaw> = [
     { path: '/', redirect: '/view/document/Front Page' },
-    { path: '/view/document', component: document }
+    { path: '/view/document/:documentName', component: Document, props: true,
+        children: [
+            { path: '', component: DocumentView },
+            { path: 'history', component: DocumentHistory },
+            { path: 'edit', component: DocumentEdit }
+        ]
+    },
 ]
 
 const router = createRouter({

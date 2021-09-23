@@ -1,7 +1,8 @@
 <template>
+  <nav/>
 </template>
 <script>
 export default {
-  name: "DocumentEdit"
+  name: "GlobalNavigator"
 }
 </script>
