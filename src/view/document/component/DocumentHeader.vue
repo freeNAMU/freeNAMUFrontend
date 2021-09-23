@@ -1,6 +1,10 @@
 <template>
   <header>
-    <h1>{{ documentName }}</h1>
+    <router-link :to="{name: 'DocumentView', params: {documentName: this.$props.documentName}}">
+      <h1>
+        {{ documentName }}
+      </h1>
+    </router-link>
   </header>
 </template>
 <script>
