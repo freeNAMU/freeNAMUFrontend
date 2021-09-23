@@ -8,9 +8,9 @@ const routes: Array<RouteRecordRaw> = [
     { path: '/', redirect: '/view/document/Front Page' },
     { path: '/view/document/:documentName', component: Document, props: true,
         children: [
-            { path: '', component: DocumentView },
-            { path: 'history', component: DocumentHistory },
-            { path: 'edit', component: DocumentEdit }
+            { path: '', name: "DocumentView", component: DocumentView },
+            { path: 'history', name: "DocumentHistory", component: DocumentHistory },
+            { path: 'edit', name: "DocumentEdit", component: DocumentEdit }
         ]
     },
 ]
