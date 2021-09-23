@@ -1,7 +1,5 @@
 <template>
-  <section v-if="loaded" v-text="contentBody"/>
-  <div v-if="loading">loading...</div>
-  <div v-if="error">not found...</div>
+  <section v-text="contentBody"/>
 </template>
 <script>
 export default {
@@ -9,9 +7,6 @@ export default {
   props: ["documentName", "revision"],
   data () {
     return {
-      loading: true,
-      loaded: null,
-      error: null,
       contentBody: null
     }
   },
@@ -23,20 +18,13 @@ export default {
   },
   methods: {
     getDocument () {
-      this.loading = true
-      this.loaded = false
-      this.error = false
-      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+      const requestOptions = {
+        method: "get"
+      }
+
+      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, requestOptions)
           .then(response => response.json())
-          .then(result => {
-            this.contentBody = result.contentBody
-            this.loaded = true
-            this.loading = false
-          })
-          .catch(() => {
-            this.error = true
-            this.loading = false
-          })
+          .then(result => this.contentBody = result.contentBody)
     }
   }
 }
