@@ -1,8 +1,8 @@
 <template>
   <article>
-    <document-navigator v-bind:document-name="$props.documentName"/>
-    <document-header v-bind:document-name="$props.documentName"/>
-    <router-view v-bind:document-name="$props.documentName"/>
+    <document-navigator :document-name="documentName" :revision="revision"/>
+    <document-header :document-name="documentName" :revision="revision"/>
+    <router-view :document-name="documentName" :revision="revision"/>
   </article>
 </template>
 <script>
@@ -11,7 +11,7 @@ import DocumentHeader from "./component/DocumentHeader"
 
 export default {
   name: "Document",
-  props: ["documentName"],
+  props: ["documentName", "revision"],
   components: {DocumentHeader, DocumentNavigator}
 }
 </script>

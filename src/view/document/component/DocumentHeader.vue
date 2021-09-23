@@ -1,6 +1,6 @@
 <template>
   <header>
-    <router-link :to="{name: 'DocumentView', params: {documentName: this.$props.documentName}}">
+    <router-link :to="{name: 'DocumentView', params: {documentName, revision}}">
       <h1>
         {{ documentName }}
       </h1>
@@ -10,6 +10,6 @@
 <script>
 export default {
   name: "DocumentHeader",
-  props: ["documentName"]
+  props: ["documentName", "revision"]
 }
 </script>
