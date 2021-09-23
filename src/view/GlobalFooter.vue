@@ -1,7 +1,8 @@
 <template>
+  <footer/>
 </template>
 <script>
 export default {
-  name: "DocumentEdit"
+  name: "GlobalFooter"
 }
 </script>
