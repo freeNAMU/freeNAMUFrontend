@@ -6,7 +6,7 @@
 <script>
 export default {
   name: "DocumentView",
-  props: ["documentName"],
+  props: ["documentName", "revision"],
   data () {
     return {
       loading: true,
@@ -26,7 +26,7 @@ export default {
       this.loading = true
       this.loaded = false
       this.error = false
-      fetch(`/document/${this.$props.documentName}/latest/raw`, {method: "get"})
+      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
           .then(response => response.json())
           .then(result => {
             this.contentBody = result.contentBody
