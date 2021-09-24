@@ -1,7 +1,8 @@
 <template>
   <form @submit.stop.prevent="postDocument">
     <textarea v-model="contentBody"/>
-    <input type="submit">
+    <input type="text" v-model="comment" maxlength="255">
+    <button type="submit">제출</button>
   </form>
 </template>
 <script>
@@ -10,7 +11,8 @@ export default {
   props: ["documentName", "revision"],
   data () {
     return {
-      contentBody: null
+      contentBody: null,
+      comment: null
     }
   },
   created () {
@@ -22,19 +24,14 @@ export default {
   methods: {
     getDocument () {
       fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
-          .then(response => {
-            if (response.ok) {
-              return response.json()
-            } else {
-              throw new Error(response.status)
-            }
-          })
+          .then(response => response.json())
           .then(result => this.contentBody = result.contentBody)
           .catch(alert)
     },
     postDocument () {
       const body = new FormData()
       body.append("contentBody", this.contentBody)
+      body.append("comment", this.comment)
 
       fetch(`/document/${this.$props.documentName}`, {method: "POST", body})
           .then(response => {
@@ -53,6 +50,9 @@ export default {
 <style scoped>
 textarea {
   box-sizing: border-box;
+  width: 100%;
+}
+input {
   width: 100%;
 }
 </style>
