@@ -1,9 +1,13 @@
 <template>
-  <section v-text="contentBody"/>
+  <section v-if="contentBody" v-text="contentBody"/>
+  <document-not-found v-if="contentBody === null" :document-name="documentName"/>
 </template>
 <script>
+import DocumentNotFound from "@/view/document/component/DocumentNotFound"
+
 export default {
   name: "DocumentView",
+  components: {DocumentNotFound},
   props: ["documentName", "revision"],
   data () {
     return {
@@ -22,8 +26,8 @@ export default {
           .then(response => {
             if (response.ok) {
               return response.json()
-            } else {
-              throw new Error(response.status)
+            } else if (response.status === 404) {
+              return {contentBody: null}
             }
           })
           .then(result => this.contentBody = result.contentBody)
