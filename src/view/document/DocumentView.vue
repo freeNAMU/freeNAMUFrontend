@@ -18,13 +18,16 @@ export default {
   },
   methods: {
     getDocument () {
-      const requestOptions = {
-        method: "get"
-      }
-
-      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, requestOptions)
-          .then(response => response.json())
+      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+          .then(response => {
+            if (response.ok) {
+              return response.json()
+            } else {
+              throw new Error(response.status)
+            }
+          })
           .then(result => this.contentBody = result.contentBody)
+          .catch(alert)
     }
   }
 }
