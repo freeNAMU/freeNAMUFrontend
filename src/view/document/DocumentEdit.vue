@@ -1,6 +1,6 @@
 <template>
-  <form @submit="postDocument">
-    <textarea v-model="contentBody" cols="160" rows="40"/>
+  <form @submit.stop.prevent="postDocument">
+    <textarea v-model="contentBody"/>
     <input type="submit">
   </form>
 </template>
@@ -21,30 +21,38 @@ export default {
   },
   methods: {
     getDocument () {
-      const requestOptions = {
-        method: "get"
-      }
-
-      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, requestOptions)
-          .then(response => response.json())
+      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+          .then(response => {
+            if (response.ok) {
+              return response.json()
+            } else {
+              throw new Error(response.status)
+            }
+          })
           .then(result => this.contentBody = result.contentBody)
+          .catch(alert)
     },
     postDocument () {
-      var headers = new Headers()
-      headers.append("Content-Type", "application/x-www-form-urlencoded")
-
-      var body = new URLSearchParams()
+      const body = new FormData()
       body.append("contentBody", this.contentBody)
 
-      const requestOptions = {
-        method: "POST",
-        headers,
-        body
-      }
-
-      fetch(`/document/${this.$props.documentName}`, requestOptions)
-          .then(this.$router.push(`/view/document/${this.$props.documentName}/${this.$props.revision}`))
+      fetch(`/document/${this.$props.documentName}`, {method: "POST", body})
+          .then(response => {
+            if (response.ok) {
+              this.$router.push(`/view/document/${this.$props.documentName}/latest`)
+            } else {
+              throw new Error(response.status)
+            }
+          })
+          .catch(alert)
     }
   }
 }
 </script>
+
+<style scoped>
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+</style>
