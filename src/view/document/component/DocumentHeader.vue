@@ -1,15 +1,29 @@
 <template>
   <header>
-    <router-link :to="{name: 'DocumentView', params: {documentName, revision}}">
+    <a @click=toLatest>
       <h1>
         {{ documentName }}
       </h1>
-    </router-link>
+    </a>
   </header>
 </template>
 <script>
 export default {
   name: "DocumentHeader",
-  props: ["documentName", "revision"]
+  props: ["documentName"],
+  methods: {
+    toLatest () {
+      window.location.href = `/view/document/${this.documentName}/latest`
+    }
+  }
 }
 </script>
+<style scoped>
+a {
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>

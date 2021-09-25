@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="rows">
+  <ul v-if="loaded && rows">
     <li v-for="row in rows">
       {{ new Date(row["createDate"]).toLocaleString() }}
       (
@@ -9,7 +9,7 @@
       ({{ row["length"] }}) {{ row["contributor"] }} ({{ row["comment"] }})
     </li>
   </ul>
-  <document-not-found v-if="rows === null" :document-name="documentName"/>
+  <document-not-found v-if="loaded && rows === null" :document-name="documentName"/>
 </template>
 <script>
 import DocumentNotFound from "@/view/document/component/DocumentNotFound"
@@ -20,6 +20,7 @@ export default {
   components: {DocumentNotFound},
   data () {
     return {
+      loaded: false,
       rows: null
     }
   },
@@ -31,8 +32,10 @@ export default {
   },
   methods: {
     getHistoryOfDocument () {
+      this.loaded = false
       fetch(`/document/${this.$props.documentName}/history`, {method: "get"})
           .then(response => {
+            this.loaded = true
             if (response.ok) {
               return response.json()
             } else if (response.status === 404) {
