@@ -8,6 +8,9 @@
 <script>
 export default {
   name: "DocumentNavigator",
-  props: ["documentName", "revision"]
+  props: {
+    documentName: {},
+    revision: {default: "latest"}
+  }
 }
 </script>
