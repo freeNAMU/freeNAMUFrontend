@@ -1,7 +1,11 @@
 <template>
   <form @submit.stop.prevent="postDocument">
     <textarea v-model="contentBody"/>
+    <br>
+    편집 요약
+    <br>
     <input v-model="comment" maxlength="255" type="text">
+    <br>
     <button type="submit">제출</button>
   </form>
 </template>

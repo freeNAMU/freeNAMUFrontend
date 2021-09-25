@@ -1,7 +1,7 @@
 <template>
+  <document-navigator :document-name="documentName" :revision="revision"/>
   <article>
-    <document-navigator :document-name="documentName" :revision="revision"/>
-    <document-header :document-name="documentName" :revision="revision"/>
+    <document-header :document-name="documentName"/>
     <router-view :document-name="documentName" :revision="revision"/>
   </article>
 </template>
@@ -15,5 +15,3 @@ export default {
   components: {DocumentHeader, DocumentNavigator}
 }
 </script>
-<style scoped>
-</style>

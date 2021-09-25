@@ -11,5 +11,3 @@ export default {
   props: ["documentName"]
 }
 </script>
-<style scoped>
-</style>
