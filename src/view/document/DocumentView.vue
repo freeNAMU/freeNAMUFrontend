@@ -1,6 +1,6 @@
 <template>
-  <section v-if="contentBody" v-text="contentBody"/>
-  <document-not-found v-if="contentBody === null" :document-name="documentName"/>
+  <section v-if="loaded && contentBody" v-text="contentBody"/>
+  <document-not-found v-if="loaded && contentBody === null" :document-name="documentName"/>
 </template>
 <script>
 import DocumentNotFound from "@/view/document/component/DocumentNotFound"
@@ -11,6 +11,7 @@ export default {
   props: ["documentName", "revision"],
   data () {
     return {
+      loaded: false,
       contentBody: null
     }
   },
@@ -22,8 +23,10 @@ export default {
   },
   methods: {
     getDocument () {
+      this.loaded = false
       fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
           .then(response => {
+            this.loaded = true
             if (response.ok) {
               return response.json()
             } else if (response.status === 404) {
