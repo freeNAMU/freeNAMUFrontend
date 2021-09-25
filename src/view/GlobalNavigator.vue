@@ -1,7 +1,7 @@
 <template>
   <nav>
     <form @submit="searchDocument">
-      <input type="text" v-model="documentName">
+      <input v-model="documentName" type="text">
       <button type="submit">검색</button>
     </form>
   </nav>
