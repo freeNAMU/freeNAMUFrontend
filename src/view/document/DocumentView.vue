@@ -26,15 +26,17 @@ export default {
       this.loaded = false
       fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
           .then(response => {
-            this.loaded = true
             if (response.ok) {
               return response.json()
-            } else if (response.status === 404) {
+            } else if (!response.ok) {
               return {contentBody: null}
             }
           })
           .then(result => this.contentBody = result.contentBody)
           .catch(alert)
+          .finally(() => {
+            this.loaded = true
+          })
     }
   }
 }

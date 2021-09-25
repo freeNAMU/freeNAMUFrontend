@@ -6,7 +6,9 @@
       <router-link :to="{name: 'DocumentView', params: {documentName, revision: row['revisionIndex']}}">보기</router-link>
       )
       <strong>r{{ row["revisionIndex"] }}</strong>
-      ({{ row["length"] }}) {{ row["contributor"] }} ({{ row["comment"] }})
+      ({{ row["length"] }})
+      {{ row["contributor"] }}
+      ({{ row["comment"] }})
     </li>
   </ul>
   <document-not-found v-if="loaded && rows === null" :document-name="documentName"/>
@@ -35,15 +37,27 @@ export default {
       this.loaded = false
       fetch(`/document/${this.$props.documentName}/history`, {method: "get"})
           .then(response => {
-            this.loaded = true
             if (response.ok) {
               return response.json()
-            } else if (response.status === 404) {
+            } else if (!response.ok) {
               return {rows: null}
             }
           })
-          .then(result => this.rows = result.rows.reverse())
+          .then(result => {
+            if (result.rows) {
+              result.rows = result.rows.reverse()
+              for (let i = 0; i < result.rows.length - 1; i++) {
+                result.rows[i]["length"] = result.rows[i]["length"] - result.rows[i + 1]["length"]
+                if (result.rows[i]["length"] > 0)
+                  result.rows[i]["length"] = "+" + result.rows[i]["length"]
+              }
+            }
+            this.rows = result.rows
+          })
           .catch(alert)
+          .finally(() => {
+            this.loaded = true
+          })
     }
   }
 }
