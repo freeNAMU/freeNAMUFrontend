@@ -7,13 +7,13 @@ import DocumentEdit from "@/view/document/DocumentEdit.vue";
 const routes: Array<RouteRecordRaw> = [
     {path: '/', redirect: '/view/document/Front Page/latest'},
     {
-        path: '/view/document/:documentName/:revision', component: Document, props: true,
+        path: '/view/document/:documentName', component: Document, props: true,
         children: [
-            {path: '', name: "DocumentView", component: DocumentView},
             {path: 'history', name: "DocumentHistory", component: DocumentHistory},
-            {path: 'edit', name: "DocumentEdit", component: DocumentEdit}
+            {path: ':revision', name: "DocumentView", component: DocumentView},
+            {path: ':revision/edit', name: "DocumentEdit", component: DocumentEdit},
         ]
-    },
+    }
 ]
 
 const router = createRouter({
