@@ -24,7 +24,7 @@ export default {
   methods: {
     getDocument () {
       this.loaded = false
-      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+      fetch(`/api/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()

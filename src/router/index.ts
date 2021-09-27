@@ -5,9 +5,9 @@ import DocumentHistory from "@/view/document/DocumentHistory.vue";
 import DocumentEdit from "@/view/document/DocumentEdit.vue";
 
 const routes: Array<RouteRecordRaw> = [
-    {path: '/', redirect: '/view/document/Front Page/latest'},
+    {path: '/', redirect: '/document/Front Page/latest'},
     {
-        path: '/view/document/:documentName', component: Document, props: true,
+        path: '/document/:documentName', component: Document, props: true,
         children: [
             {path: 'history', name: "DocumentHistory", component: DocumentHistory},
             {path: ':revision', name: "DocumentView", component: DocumentView},

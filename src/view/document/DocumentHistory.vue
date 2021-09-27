@@ -35,7 +35,7 @@ export default {
   methods: {
     getHistoryOfDocument () {
       this.loaded = false
-      fetch(`/document/${this.$props.documentName}/history`, {method: "get"})
+      fetch(`/api/document/${this.$props.documentName}/history`, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()

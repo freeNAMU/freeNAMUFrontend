@@ -13,7 +13,7 @@ export default {
   props: ["documentName"],
   methods: {
     toLatest () {
-      window.location.href = `/view/document/${this.documentName}/latest`
+      window.location.href = `/document/${this.documentName}/latest`
     }
   }
 }

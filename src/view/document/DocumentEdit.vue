@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     getDocument () {
-      fetch(`/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+      fetch(`/api/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()
@@ -43,10 +43,10 @@ export default {
       body.append("contentBody", this.contentBody)
       body.append("comment", this.comment)
 
-      fetch(`/document/${this.$props.documentName}`, {method: "POST", body})
+      fetch(`/api/document/${this.$props.documentName}`, {method: "POST", body})
           .then(response => {
             if (response.ok) {
-              this.$router.push(`/view/document/${this.$props.documentName}/latest`)
+              this.$router.push(`/document/${this.$props.documentName}/latest`)
             } else {
               throw new Error(response.status)
             }
