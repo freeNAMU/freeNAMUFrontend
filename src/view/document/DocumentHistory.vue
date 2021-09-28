@@ -1,17 +1,17 @@
 <template>
-  <ul v-if="loaded && rows">
+  <ul v-if="loaded && rows.length">
     <li v-for="row in rows">
-      {{ new Date(row["createDate"]).toLocaleString() }}
+      {{ new Date(row["createDateTime"]).toLocaleString() }}
       (
       <router-link :to="{name: 'DocumentView', params: {documentName, revision: row['revisionIndex']}}">보기</router-link>
       )
       <strong>r{{ row["revisionIndex"] }}</strong>
-      ({{ row["length"] }})
+      ({{ row["lengthDiffer"] }})
       {{ row["contributor"] }}
       ({{ row["comment"] }})
     </li>
   </ul>
-  <document-not-found v-if="loaded && rows === null" :document-name="documentName"/>
+  <document-not-found v-if="loaded && rows.length === 0" :document-name="documentName"/>
 </template>
 <script>
 import DocumentNotFound from "@/view/document/component/DocumentNotFound"
@@ -40,19 +40,11 @@ export default {
             if (response.ok) {
               return response.json()
             } else if (!response.ok) {
-              return {rows: null}
+              return []
             }
           })
           .then(result => {
-            if (result.rows) {
-              result.rows = result.rows.reverse()
-              for (let i = 0; i < result.rows.length - 1; i++) {
-                result.rows[i]["length"] = result.rows[i]["length"] - result.rows[i + 1]["length"]
-                if (result.rows[i]["length"] > 0)
-                  result.rows[i]["length"] = "+" + result.rows[i]["length"]
-              }
-            }
-            this.rows = result.rows
+            this.rows = result
           })
           .catch(alert)
           .finally(() => {
