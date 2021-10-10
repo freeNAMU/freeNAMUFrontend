@@ -1,5 +1,5 @@
 <template>
-  <section v-if="loaded && contentBody" v-text="contentBody"/>
+  <div v-if="loaded && contentBody" v-html="contentBody"/>
   <document-not-found v-if="loaded && contentBody === null" :document-name="documentName"/>
 </template>
 <script>
@@ -24,7 +24,7 @@ export default {
   methods: {
     getDocument () {
       this.loaded = false
-      fetch(`/api/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+      fetch(`/api/document/${this.$props.documentName}/${this.$props.revision}`, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()
