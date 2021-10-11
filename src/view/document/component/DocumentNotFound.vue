@@ -1,13 +1,27 @@
 <template>
-  <section>
+  <div>
     문서를 찾을 수 없습니다. 문서를 생성하려면
-    <router-link :to="{name: 'DocumentEdit', params: {documentName}}">여기</router-link>
+    <a @click="toEdit">여기</a>
     를 클릭하세요.
-  </section>
+  </div>
 </template>
 <script>
 export default {
   name: "DocumentNotFound",
-  props: ["documentName"]
+  props: ["documentName"],
+  methods: {
+    toEdit () {
+      this.$router.push(`/document/edit/${this.$props.documentName}`)
+    }
+  }
 }
 </script>
+<style scoped>
+a {
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>

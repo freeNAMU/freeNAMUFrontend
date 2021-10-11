@@ -3,7 +3,7 @@
     <li v-for="row in rows">
       {{ new Date(row["createDateTime"]).toLocaleString() }}
       (
-      <router-link :to="{name: 'DocumentView', params: {documentName, revision: row['revisionIndex']}}">보기</router-link>
+      <a @click="toViewBy(row['revisionIndex'])">보기</a>
       )
       <strong>r{{ row["revisionIndex"] }}</strong>
       ({{ row["lengthDiffer"] }})
@@ -29,13 +29,13 @@ export default {
   created () {
     this.getHistoryOfDocument()
   },
-  watch: {
-    "$route": "getHistoryOfDocument"
-  },
   methods: {
+    toViewBy (revisionIndex) {
+      this.$router.push(`/document/view/${this.$props.documentName}?rev=${revisionIndex}`)
+    },
     getHistoryOfDocument () {
       this.loaded = false
-      fetch(`/api/document/${this.$props.documentName}/history`, {method: "get"})
+      fetch(`/api/document/history/${this.$props.documentName}`, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()

@@ -16,15 +16,16 @@ export default {
     }
   },
   created () {
-    this.getDocument()
-  },
-  watch: {
-    "$route": "getDocument"
+    this.getRenderedDocument()
   },
   methods: {
-    getDocument () {
+    getRenderedDocument () {
       this.loaded = false
-      fetch(`/api/document/${this.$props.documentName}/${this.$props.revision}`, {method: "get"})
+      let url = `/api/document/render/${this.$props.documentName}`
+      if (this.$props.revision !== undefined) {
+        url += `?rev=${this.$props.revision}`
+      }
+      fetch(url, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()

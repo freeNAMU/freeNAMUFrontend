@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     searchDocument () {
-      this.$router.push(`/document/${this.documentName}/latest`)
+      this.$router.push(`/document/view/${this.documentName}`)
     }
   }
 }

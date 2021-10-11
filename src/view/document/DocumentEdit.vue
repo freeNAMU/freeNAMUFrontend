@@ -20,14 +20,15 @@ export default {
     }
   },
   created () {
-    this.getDocument()
-  },
-  watch: {
-    "$route": "getDocument"
+    this.getRawDocument()
   },
   methods: {
-    getDocument () {
-      fetch(`/api/document/${this.$props.documentName}/${this.$props.revision}/raw`, {method: "get"})
+    getRawDocument () {
+      let url = `/api/document/raw/${this.$props.documentName}`
+      if (this.$props.revision !== undefined) {
+        url += `?rev=${this.$props.revision}`
+      }
+      fetch(url, {method: "get"})
           .then(response => {
             if (response.ok) {
               return response.json()
@@ -43,10 +44,10 @@ export default {
       body.append("contentBody", this.contentBody)
       body.append("comment", this.comment)
 
-      fetch(`/api/document/${this.$props.documentName}`, {method: "POST", body})
+      fetch(`/api/document/raw/${this.$props.documentName}`, {method: "POST", body})
           .then(response => {
             if (response.ok) {
-              this.$router.push(`/document/${this.$props.documentName}/latest`)
+              this.$router.push(`/document/view/${this.$props.documentName}`)
             } else {
               throw new Error(response.status)
             }

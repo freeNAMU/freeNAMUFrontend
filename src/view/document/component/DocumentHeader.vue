@@ -2,7 +2,8 @@
   <header>
     <a @click=toLatest>
       <h1>
-        {{ documentName }}
+        {{ decodeURI(documentName) }}
+        <sub v-if="revision !== undefined">(r{{ revision }})</sub>
       </h1>
     </a>
   </header>
@@ -10,10 +11,10 @@
 <script>
 export default {
   name: "DocumentHeader",
-  props: ["documentName"],
+  props: ["documentName", "revision"],
   methods: {
     toLatest () {
-      window.location.href = `/document/${this.documentName}/latest`
+      window.location.href = `/document/view/${this.documentName}`
     }
   }
 }
