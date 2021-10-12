@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <form @submit="searchDocument">
+    <form @submit.stop.prevent="searchDocument">
       <input v-model="documentName" type="text">
       <button type="submit">검색</button>
     </form>
@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     searchDocument () {
-      this.$router.push(`/document/view/${this.documentName}`)
+      window.location.href = `/document/view/${this.documentName}`
     }
   }
 }
