@@ -10,8 +10,8 @@
 </template>
 <script>
 export default {
-  name: "DocumentHeader",
-  props: ["documentName", "revision"],
+  name: 'DocumentHeader',
+  props: ['documentName', 'revision'],
   methods: {
     toLatest () {
       window.location.href = `/document/view/${this.documentName}`

@@ -3,12 +3,12 @@
   <document-not-found v-if="loaded && contentBody === null" :document-name="documentName"/>
 </template>
 <script>
-import DocumentNotFound from "@/view/document/component/DocumentNotFound"
+import DocumentNotFound from '@/view/document/component/DocumentNotFound'
 
 export default {
-  name: "DocumentView",
-  components: {DocumentNotFound},
-  props: ["documentName", "revision"],
+  name: 'DocumentView',
+  components: { DocumentNotFound },
+  props: ['documentName', 'revision'],
   data () {
     return {
       loaded: false,
@@ -25,12 +25,12 @@ export default {
       if (this.$props.revision !== undefined) {
         url += `?rev=${this.$props.revision}`
       }
-      fetch(url, {method: "get"})
+      fetch(url, { method: 'get' })
           .then(response => {
             if (response.ok) {
               return response.json()
             } else if (!response.ok) {
-              return {contentBody: null}
+              return { contentBody: null }
             }
           })
           .then(result => this.contentBody = result.contentBody)

@@ -7,8 +7,8 @@
 </template>
 <script>
 export default {
-  name: "DocumentNavigator",
-  props: ["documentName", "revision"],
+  name: 'DocumentNavigator',
+  props: ['documentName', 'revision'],
   methods: {
     toEdit () {
       let url = `/document/edit/${this.$props.documentName}`

@@ -8,7 +8,7 @@
 </template>
 <script>
 export default {
-  name: "GlobalNavigator",
+  name: 'GlobalNavigator',
   data () {
     return {
       documentName: null

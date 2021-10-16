@@ -11,8 +11,8 @@
 </template>
 <script>
 export default {
-  name: "DocumentEdit",
-  props: ["documentName", "revision"],
+  name: 'DocumentEdit',
+  props: ['documentName', 'revision'],
   data () {
     return {
       contentBody: null,
@@ -28,12 +28,12 @@ export default {
       if (this.$props.revision !== undefined) {
         url += `?rev=${this.$props.revision}`
       }
-      fetch(url, {method: "get"})
+      fetch(url, { method: 'get' })
           .then(response => {
             if (response.ok) {
               return response.json()
             } else if (response.status === 404) {
-              return {contentBody: null}
+              return { contentBody: null }
             }
           })
           .then(result => this.contentBody = result.contentBody)
@@ -41,10 +41,10 @@ export default {
     },
     postDocument () {
       const body = new FormData()
-      body.append("contentBody", this.contentBody)
-      body.append("comment", this.comment)
+      body.append('contentBody', this.contentBody)
+      body.append('comment', this.comment)
 
-      fetch(`/api/document/raw/${this.$props.documentName}`, {method: "POST", body})
+      fetch(`/api/document/raw/${this.$props.documentName}`, { method: 'POST', body })
           .then(response => {
             if (response.ok) {
               this.$router.push(`/document/view/${this.$props.documentName}`)

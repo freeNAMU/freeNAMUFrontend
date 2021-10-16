@@ -7,8 +7,8 @@
 </template>
 <script>
 export default {
-  name: "DocumentNotFound",
-  props: ["documentName"],
+  name: 'DocumentNotFound',
+  props: ['documentName'],
   methods: {
     toEdit () {
       this.$router.push(`/document/edit/${this.$props.documentName}`)

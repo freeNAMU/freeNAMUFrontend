@@ -4,10 +4,10 @@
   <global-footer/>
 </template>
 <script>
-import GlobalNavigator from "@/view/GlobalNavigator"
-import GlobalFooter from "@/view/GlobalFooter"
+import GlobalNavigator from '@/view/GlobalNavigator'
+import GlobalFooter from '@/view/GlobalFooter'
 
 export default {
-  components: {GlobalFooter, GlobalNavigator}
+  components: { GlobalFooter, GlobalNavigator }
 }
 </script>

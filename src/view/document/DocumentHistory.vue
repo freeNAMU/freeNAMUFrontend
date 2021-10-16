@@ -1,25 +1,25 @@
 <template>
   <ul v-if="loaded && rows.length">
     <li v-for="row in rows">
-      {{ new Date(row["createDateTime"]).toLocaleString() }}
+      {{ new Date(row['createDateTime']).toLocaleString() }}
       (
       <a @click="toViewBy(row['revisionIndex'])">보기</a>
       )
-      <strong>r{{ row["revisionIndex"] }}</strong>
-      ({{ row["lengthDiffer"] }})
-      {{ row["contributor"] }}
-      ({{ row["comment"] }})
+      <strong>r{{ row['revisionIndex'] }}</strong>
+      ({{ row['lengthDiffer'] }})
+      {{ row['contributor'] }}
+      ({{ row['comment'] }})
     </li>
   </ul>
   <document-not-found v-if="loaded && rows.length === 0" :document-name="documentName"/>
 </template>
 <script>
-import DocumentNotFound from "@/view/document/component/DocumentNotFound"
+import DocumentNotFound from '@/view/document/component/DocumentNotFound'
 
 export default {
-  name: "DocumentHistory",
-  props: ["documentName"],
-  components: {DocumentNotFound},
+  name: 'DocumentHistory',
+  props: ['documentName'],
+  components: { DocumentNotFound },
   data () {
     return {
       loaded: false,
@@ -35,7 +35,7 @@ export default {
     },
     getHistoryOfDocument () {
       this.loaded = false
-      fetch(`/api/document/history/${this.$props.documentName}`, {method: "get"})
+      fetch(`/api/document/history/${this.$props.documentName}`, { method: 'get' })
           .then(response => {
             if (response.ok) {
               return response.json()
