@@ -28,13 +28,13 @@ export default {
       fetch(url, { method: 'get' })
           .then(response => {
             if (response.ok) {
-              return response.json()
-            } else if (!response.ok) {
-              return { contentBody: null }
+              response.json().then(result => this.contentBody = result.contentBody)
+            } else if (response.status === 301) {
+              response.json().then(result => window.location.href = `/document/view/${result.contentBody}`)
+            } else {
+              this.contentBody = null
             }
           })
-          .then(result => this.contentBody = result.contentBody)
-          .catch(alert)
           .finally(() => {
             this.loaded = true
           })
